@@ -24,7 +24,7 @@ const ALERT_TEXT := "You're using Godot '%s', but GDTour does not support this v
 
 var _supported_versions := {
 	min = {major = 4, minor = 4, op = func(a: int, b: int) -> bool: return a <= b},
-	max = {major = 4, minor = 5, op = func(a: int, b: int) -> bool: return a >= b},
+	max = {major = 4, minor = 7, op = func(a: int, b: int) -> bool: return a >= b},
 }
 var version_info := Engine.get_version_info()
 
