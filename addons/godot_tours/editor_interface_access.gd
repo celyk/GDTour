@@ -85,6 +85,8 @@ var spatial_editor_toolbar_ruler_button: Button = null
 var spatial_editor_toolbar_ungroup_button: Button = null
 var spatial_editor_toolbar_local_button: Button = null
 var spatial_editor_toolbar_snap_button: Button = null
+var spatial_editor_toolbar_trackball_button: Button = null
+var spatial_editor_toolbar_preserve_transform_button: Button = null
 var spatial_editor_toolbar_camera_button: Button = null
 var spatial_editor_toolbar_sun_button: Button = null
 var spatial_editor_toolbar_environment_button: Button = null
@@ -439,12 +441,13 @@ func _init() -> void:
 	spatial_editor_toolbar_ruler_button = spatial_editor_toolbar_buttons[10]
 	spatial_editor_toolbar_local_button = spatial_editor_toolbar_buttons[11]
 	spatial_editor_toolbar_snap_button = spatial_editor_toolbar_buttons[12]
-	
-	spatial_editor_toolbar_sun_button = spatial_editor_toolbar_buttons[12]
-	spatial_editor_toolbar_environment_button = spatial_editor_toolbar_buttons[13]
-	spatial_editor_toolbar_sun_environment_button = spatial_editor_toolbar_buttons[14]
-	spatial_editor_toolbar_transform_menu_button = spatial_editor_toolbar_buttons[15]
-	spatial_editor_toolbar_view_menu_button = spatial_editor_toolbar_buttons[16]
+	spatial_editor_toolbar_trackball_button = spatial_editor_toolbar_buttons[13]
+	spatial_editor_toolbar_preserve_transform_button = spatial_editor_toolbar_buttons[14]
+	spatial_editor_toolbar_sun_button = spatial_editor_toolbar_buttons[15]
+	spatial_editor_toolbar_environment_button = spatial_editor_toolbar_buttons[16]
+	spatial_editor_toolbar_sun_environment_button = spatial_editor_toolbar_buttons[17]
+	spatial_editor_toolbar_transform_menu_button = spatial_editor_toolbar_buttons[18]
+	spatial_editor_toolbar_view_menu_button = spatial_editor_toolbar_buttons[19]
 
 	script_editor = EditorInterface.get_script_editor()
 	script_editor_window_wrapper = script_editor.get_parent()
