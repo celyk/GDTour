@@ -22,26 +22,27 @@ func _build() -> void:
 	swap_bubble(TestTourBubblePackedScene)
 	auto_next()
 	complete_step()
-
+	
 	# Step 2
 	swap_bubble()
+	
 	queue_command(func() -> void:
 		bubble.is_debug = true
 	)
-	auto_next()
+	##auto_next()
 	complete_step()
-
+	
 	# Step 3
 	bubble_add_task_toggle_button(interface.canvas_item_editor_toolbar_smart_snap_button, true, gtr("Turn on grid snapping"))
 	highlight_controls([interface.canvas_item_editor_toolbar_smart_snap_button])
-	auto_next()
+	##auto_next()
 	complete_step()
 
 	# Step 4
 	context_set_3d()
 	bubble_add_task_toggle_button(interface.spatial_editor_toolbar_snap_button, true, gtr("Turn on grid snapping"))
 	highlight_controls([interface.spatial_editor_toolbar_snap_button])
-	auto_next()
+	##auto_next()
 	complete_step()
 
 	# Step 5
@@ -52,7 +53,7 @@ func _build() -> void:
 		var edited_scene_root := EditorInterface.get_edited_scene_root()
 		assert(edited_scene_root is Node2D and edited_scene_root.name == name, "'edited_scene_root' should be '%s'" % name)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 6
@@ -64,7 +65,7 @@ func _build() -> void:
 		for selected_node in selected_nodes:
 			assert(selected_node.name in names, "'selected_node.name' should be one of '%s'" % ", ".join(names))
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 7
@@ -73,7 +74,7 @@ func _build() -> void:
 		var edited_scene_root := EditorInterface.get_edited_scene_root()
 		assert(edited_scene_root.get_meta(&"_edit_lock_"), "'edited_scene_root' '_edit_lock_' meta should be 'true'")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 8
@@ -82,7 +83,7 @@ func _build() -> void:
 		var edited_scene_root := EditorInterface.get_edited_scene_root()
 		assert(not edited_scene_root.has_meta(&"_edit_lock_"), "'edited_scene_root' '_edit_lock_' meta should not exist")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 9
@@ -91,16 +92,16 @@ func _build() -> void:
 		var selected_nodes := editor_selection.get_selected_nodes()
 		assert(selected_nodes.is_empty(), "'selected_nodes' array should be empty")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
-
+	
 	# Step 10
 	tabs_set_to_index(interface.inspector_tabs, 1)
 	queue_command(func() -> void:
 		assert(interface.inspector_tabs.current_tab == 1, "'interface.inspector_tabs.current_tab' should be '1'")
 	)
 	tabs_set_to_index(interface.inspector_tabs, 0)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 11
@@ -109,7 +110,7 @@ func _build() -> void:
 		assert(interface.scene_tabs.current_tab == 1, "'interface.scene_tabs.current_tab' should be '1'")
 	)
 	tabs_set_to_index(interface.scene_tabs, 0)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 12
@@ -131,7 +132,7 @@ func _build() -> void:
 			),
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 13
@@ -142,7 +143,7 @@ func _build() -> void:
 			"'interface.canvas_item_editor_zoom_widget' 'zoom' should be equal to '1.0'",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 14
@@ -154,7 +155,7 @@ func _build() -> void:
 			"'FlashArea' instance should be a child of the main screen 'Dimmer'",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 15
@@ -167,7 +168,7 @@ func _build() -> void:
 			"'interface.context_switcher_2d_button' should be pressed",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 16
@@ -179,7 +180,7 @@ func _build() -> void:
 			"'interface.context_switcher_3d_button' should be pressed",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 17
@@ -191,7 +192,7 @@ func _build() -> void:
 			"'interface.context_switcher_script_button' should be pressed"
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 18
@@ -202,7 +203,7 @@ func _build() -> void:
 			"'interface.context_switcher_game_button' should be pressed"
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 19
@@ -214,7 +215,7 @@ func _build() -> void:
 			"'interface.context_switcher_asset_lib_button' should be pressed",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 20
@@ -225,7 +226,7 @@ func _build() -> void:
 			bubble.title_label.text == title, "'bubble.title_label.text' should be 'Test Title'"
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 21
@@ -243,7 +244,7 @@ func _build() -> void:
 				"'bubble.main_v_box_container' '%d' element should have text '%s'" % [i, line],
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 22
@@ -261,7 +262,7 @@ func _build() -> void:
 				"'bubble.main_v_box_container' '%d' element should have text '%s'" % [i, line],
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 23
@@ -276,7 +277,7 @@ func _build() -> void:
 				"'bubble.main_v_box_container' element should a 'TextureRect' set to '%s'" % file_path,
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 24
@@ -291,7 +292,7 @@ func _build() -> void:
 				"'bubble.main_v_box_container' element should a 'VideoStreamPlayer' set to '%s'" % file_path,
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 25
@@ -303,7 +304,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_press_button(interface.run_bar_play_button)' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 26
@@ -315,7 +316,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_press_button(interface.run_bar_play_current_button)' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 27
@@ -325,7 +326,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_toggle_button()' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 28
@@ -335,7 +336,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_set_tab_to_index()' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 29
@@ -345,7 +346,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_set_tab_to_title()' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 30
@@ -356,7 +357,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_select_node()' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 31
@@ -372,7 +373,7 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(bubble.check_tasks(), "'bubble_add_task_set_ranges()' all tasks should be done")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 32
@@ -384,7 +385,7 @@ func _build() -> void:
 			"'bubble.header_rich_text_label.text' should be '%s'" % text
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 33
@@ -396,7 +397,7 @@ func _build() -> void:
 			"'bubble.footer_rich_text_label.text' should be '%s'" % text
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 34
@@ -407,7 +408,7 @@ func _build() -> void:
 			"'bubble.background_texture_rect.texture' should be 'res://icon.png'",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 35
@@ -421,7 +422,7 @@ func _build() -> void:
 			"'bubble_move_and_anchor()' should place the bubble at the top right of main screen",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 36
@@ -437,7 +438,7 @@ func _build() -> void:
 			"'bubble_set_avatar_at()' should place the bubble avatar at right",
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 37
@@ -451,7 +452,7 @@ func _build() -> void:
 			"'bubble_set_minimum_size_scaled()' should set the bubble minimum size to '%s'" % str(size),
 		)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 38
@@ -469,7 +470,7 @@ func _build() -> void:
 				"'highlight_scene_nodes_by_name()' places highlight in Scene dock"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 39
@@ -484,7 +485,7 @@ func _build() -> void:
 				"'highlight_scene_nodes_by_path()' places highlight in Scene dock"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 40
@@ -500,7 +501,7 @@ func _build() -> void:
 			)
 
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 41
@@ -516,7 +517,7 @@ func _build() -> void:
 				"'highlight_inspector_properties()' places highlight in Inspector dock"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 42
@@ -533,7 +534,7 @@ func _build() -> void:
 				"'highlight_signals()' places highlight in Node dock"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 43
@@ -551,7 +552,7 @@ func _build() -> void:
 				"'highlight_code()' places highlight in code editor"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 44
@@ -565,7 +566,7 @@ func _build() -> void:
 				"'highlight_controls()' places highlight in 'interface.run_bar'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 45
@@ -580,7 +581,7 @@ func _build() -> void:
 				"'highlight_tabs_index()' places highlight in 'interface.run_bar'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 46
@@ -595,7 +596,7 @@ func _build() -> void:
 				"'highlight_tabs_title()' places highlight in 'interface.scene_tabs'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 47
@@ -611,7 +612,7 @@ func _build() -> void:
 				"'highlight_tabs_title()' places highlight in 'interface.canvas_item_editor_viewport'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 48
@@ -621,13 +622,13 @@ func _build() -> void:
 		await delay_process_frame(2)
 		assert(interface.tileset.is_visible_in_tree(), "'interface.tileset.is_visible_in_tree()' should be 'true'")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 49
 	var item_index := 1
 	scene_select_nodes_by_path(["TestTour2D/TileMap"])
-	tabs_set_to_index(interface.tilemap_tabs, 0)
+	#tabs_set_to_index(interface.tilemap_tabs, 0)
 	queue_command(func() -> void:
 		interface.bottom_tilemap_button.pressed.emit()
 		await delay_process_frame(10)
@@ -643,9 +644,11 @@ func _build() -> void:
 				"'highlight_tilemap_list_item()' places highlight in 'interface.tilemap_tiles'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
+	#return
+	
 	# Step 50
 	context_set_3d()
 	queue_command(func() -> void:
@@ -662,7 +665,7 @@ func _build() -> void:
 				"'higlight_spatial_editor_camera_region()' places highlight in 'interface.spatial_editor_surface'"
 			)
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 51
@@ -670,7 +673,7 @@ func _build() -> void:
 	context_set_2d()
 	mouse_move_by_position(200 * Vector2.ONE, to)
 	mouse_bounce()
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 52
@@ -678,7 +681,7 @@ func _build() -> void:
 		interface.bottom_output_button.toggled.emit(true)
 		assert(interface.logger.is_visible_in_tree(), "'interface.logger.is_visible_in_tree()' should be 'true'")
 	)
-	auto_next()
+	#auto_next()
 	complete_step()
 
 	# Step 53
