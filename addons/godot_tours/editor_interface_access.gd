@@ -119,7 +119,7 @@ var snap_options_scale_step_controls: Array[Control] = []
 
 # Left Upper
 var scene_tabs: TabBar = null
-var scene_dock: VBoxContainer = null
+var scene_dock: MarginContainer = null
 var scene_dock_create_root_panel: VBoxContainer = null
 var scene_dock_create_root_2d_scene_button: Button = null
 var scene_dock_create_root_3d_scene_button: Button = null
@@ -128,7 +128,7 @@ var scene_dock_create_root_other_node_button: Button = null
 var scene_dock_add_button: Button = null
 var scene_dock_add_script_button: Button = null
 var scene_tree: Tree = null
-var import_dock: VBoxContainer = null
+var import_dock: MarginContainer = null
 var select_node_window: ConfirmationDialog = null
 
 var node_create_window: ConfirmationDialog = null
@@ -140,18 +140,20 @@ var node_create_dialog_button_cancel: Button = null
 
 # Left Bttom
 var filesystem_tabs: TabBar = null
-var filesystem_dock: VBoxContainer = null
+var filesystem_dock: MarginContainer = null
 var filesystem_tree: Tree = null
 
 # Right
 var inspector_tabs: TabBar = null
-var inspector_dock: VBoxContainer = null
+var inspector_dock: MarginContainer = null
 var inspector_editor: EditorInspector = null
 
-var node_dock: VBoxContainer = null
+var node_dock: TabContainer = null
 var node_dock_buttons_box: HBoxContainer = null
-var node_dock_signals_button: Button = null
-var node_dock_groups_button: Button = null
+#var node_dock_signals_button: Button = null
+#var node_dock_groups_button: Button = null
+var node_dock_signals_dock: Button = null
+var node_dock_groups_dock: Button = null
 var node_dock_signals_editor: VBoxContainer = null
 var node_dock_signals_tree: Tree = null
 
@@ -163,7 +165,7 @@ var signals_dialog_method_line_edit: LineEdit = null
 var signals_dialog_cancel_button: Button = null
 var signals_dialog_ok_button: Button = null
 var node_dock_groups_editor: VBoxContainer = null
-var history_dock: VBoxContainer = null
+var history_dock: MarginContainer = null
 
 # Bottom
 var bottom_panels_container: Control = null
@@ -460,14 +462,14 @@ func _init() -> void:
 
 	# Left Upper
 	scene_dock = Utils.find_child_by_type(base_control, "SceneTreeDock")
-	scene_dock_create_root_panel = scene_dock.get_child(2)
+	scene_dock_create_root_panel = scene_dock.get_child(0)
 	var scene_dock_create_root_buttons_container: Control = scene_dock_create_root_panel.get_child(1).get_child(0).get_child(0)
 	scene_dock_create_root_2d_scene_button = scene_dock_create_root_buttons_container.get_child(0)
 	scene_dock_create_root_3d_scene_button = scene_dock_create_root_buttons_container.get_child(1)
 	scene_dock_create_root_user_interface_button = scene_dock_create_root_buttons_container.get_child(2)
 	scene_dock_create_root_other_node_button = scene_dock_create_root_panel.get_child(1).get_child(0).get_child(2)
-	scene_dock_add_button = scene_dock.get_child(0).get_child(0)
-	scene_dock_add_script_button = scene_dock.get_child(0).get_child(3)
+	scene_dock_add_button = scene_dock.get_child(0).get_child(0).get_child(0)
+	scene_dock_add_script_button = scene_dock.get_child(0).get_child(0).get_child(3)
 	node_create_window = Utils.find_child_by_type(scene_dock, "CreateDialog")
 	node_create_panel = Utils.find_child_by_type(node_create_window, "HSplitContainer")
 	var node_create_dialog_vboxcontainer: VBoxContainer = Utils.find_child_by_type(node_create_panel, "VBoxContainer", false)
@@ -490,11 +492,14 @@ func _init() -> void:
 	inspector_dock = Utils.find_child_by_type(base_control, "InspectorDock")
 	inspector_tabs = Utils.find_child_by_type(inspector_dock.get_parent(), "TabBar")
 	inspector_editor = EditorInterface.get_inspector()
-	node_dock = Utils.find_child_by_type(base_control, "NodeDock")
-	node_dock_buttons_box = node_dock.get_child(0)
+	node_dock = inspector_dock.get_parent() #Utils.find_child_by_type(base_control, "SideDockTabContainer")
+	print(node_dock)
+	print(node_dock.get_child(0))
+	print(inspector_tabs.get_parent())
+	node_dock_buttons_box = inspector_tabs.get_parent()
 	var node_dock_buttons := node_dock_buttons_box.get_children()
-	node_dock_signals_button = node_dock_buttons[0]
-	node_dock_groups_button = node_dock_buttons[1]
+	#node_dock_signals_button = node_dock_buttons[0]
+	#node_dock_groups_button = node_dock_buttons[1]
 	node_dock_signals_editor = Utils.find_child_by_type(node_dock, "ConnectionsDock")
 	node_dock_signals_tree = Utils.find_child_by_type(node_dock_signals_editor, "Tree")
 
@@ -756,8 +761,8 @@ func _init() -> void:
 			main_screen_tabs_add_tab_button: ["main_screen_tabs_add_tab_button", "Add"],
 			scene_dock_add_button: ["scene_dock_add_button", "Add"],
 			scene_dock_add_script_button: ["scene_dock_add_script_button", "Script"],
-			node_dock_signals_button: ["node_dock_signals_button", "Signals"],
-			node_dock_groups_button: ["node_dock_groups_button", "Groups"],
+			node_dock_signals_dock: ["node_dock_signals_dock", "Signals"],
+			node_dock_groups_dock: ["node_dock_groups_dock", "Groups"],
 			spriteframes_animation_toolbar_add_animation_button: ["spriteframes_animation_toolbar_add_animation_button", "New"],
 			spriteframes_animation_toolbar_duplicate_animation_button: ["spriteframes_animation_toolbar_duplicate_animation_button", "Duplicate"],
 			spriteframes_animation_toolbar_delete_animation_button: ["spriteframes_animation_toolbar_delete_animation_button", "Remove"],
