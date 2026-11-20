@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="GDTour - GDQuest"
 run/main_scene="uid://dkiu31kpq64co"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.png"
 
 [dotnet]
@@ -22,6 +26,10 @@ project/assembly_name="GDTour - GDQuest"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_tours/plugin.cfg")
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://addons/godot_tours/tour.gd", "res://tours/test_tour/test_tour.gd")
 
 [rendering]
 
