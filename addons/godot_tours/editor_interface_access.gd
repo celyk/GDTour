@@ -81,8 +81,8 @@ var spatial_editor_toolbar_selectable_button: Button = null
 var spatial_editor_toolbar_lock_button: Button = null
 var spatial_editor_toolbar_unlock_button: Button = null
 var spatial_editor_toolbar_group_button: Button = null
-var spatial_editor_toolbar_ruler_button: Button = null
 var spatial_editor_toolbar_ungroup_button: Button = null
+var spatial_editor_toolbar_ruler_button: Button = null
 var spatial_editor_toolbar_local_button: Button = null
 var spatial_editor_toolbar_snap_button: Button = null
 var spatial_editor_toolbar_trackball_button: Button = null
@@ -715,6 +715,7 @@ func _init() -> void:
 			run_bar_movie_mode_button: ["run_bar_movie_mode_button", "MainMovieWrite"],
 			distraction_free_button: ["distraction_free_button", "DistractionFree"],
 			canvas_item_editor_toolbar_select_button: ["canvas_item_editor_toolbar_select_button", "ToolSelect"],
+			canvas_item_editor_toolbar_paint_button: ["canvas_item_editor_toolbar_paint_button", "Paint"],
 			canvas_item_editor_toolbar_move_button: ["canvas_item_editor_toolbar_move_button", "ToolMove"],
 			canvas_item_editor_toolbar_rotate_button: ["canvas_item_editor_toolbar_rotate_button", "ToolRotate"],
 			canvas_item_editor_toolbar_scale_button: ["canvas_item_editor_toolbar_scale_button", "ToolScale"],
@@ -722,6 +723,7 @@ func _init() -> void:
 			canvas_item_editor_toolbar_pivot_button: ["canvas_item_editor_toolbar_pivot_button", "EditPivot"],
 			canvas_item_editor_toolbar_pan_button: ["canvas_item_editor_toolbar_pan_button", "ToolPan"],
 			canvas_item_editor_toolbar_ruler_button: ["canvas_item_editor_toolbar_ruler_button", "Ruler"],
+			canvas_item_editor_toolbar_local_button: ["canvas_item_editor_toolbar_local_button", "Object"],
 			canvas_item_editor_toolbar_smart_snap_button: ["canvas_item_editor_toolbar_smart_snap_button", "Snap"],
 			canvas_item_editor_toolbar_grid_button: ["canvas_item_editor_toolbar_grid_button", "SnapGrid"],
 			canvas_item_editor_toolbar_snap_options_button: ["canvas_item_editor_toolbar_snap_options_button", "GuiTabMenuHl"],
@@ -733,10 +735,11 @@ func _init() -> void:
 			canvas_item_editor_center_button: ["canvas_item_editor_center_button", "CenterView"],
 			canvas_item_editor_zoom_out_button: ["canvas_item_editor_zoom_out_button", "ZoomLess"],
 			canvas_item_editor_zoom_in_button: ["canvas_item_editor_zoom_in_button", "ZoomMore"],
-			spatial_editor_toolbar_select_button: ["spatial_editor_toolbar_select_button", "ToolSelect"],
+			spatial_editor_toolbar_transform_button: ["spatial_editor_toolbar_transform_button", "ToolTransform"],
 			spatial_editor_toolbar_move_button: ["spatial_editor_toolbar_move_button", "ToolMove"],
 			spatial_editor_toolbar_rotate_button: ["spatial_editor_toolbar_rotate_button", "ToolRotate"],
 			spatial_editor_toolbar_scale_button: ["spatial_editor_toolbar_scale_button", "ToolScale"],
+			spatial_editor_toolbar_select_button: ["spatial_editor_toolbar_select_button", "ToolSelect"],
 			spatial_editor_toolbar_selectable_button: ["spatial_editor_toolbar_selectable_button", "ListSelect"],
 			spatial_editor_toolbar_lock_button: ["spatial_editor_toolbar_lock_button", "Lock"],
 			spatial_editor_toolbar_unlock_button: ["spatial_editor_toolbar_unlock_button", "Unlock"],
@@ -745,6 +748,8 @@ func _init() -> void:
 			spatial_editor_toolbar_ruler_button: ["spatial_editor_toolbar_ruler_button", "Ruler"],
 			spatial_editor_toolbar_local_button: ["spatial_editor_toolbar_local_button", "Object"],
 			spatial_editor_toolbar_snap_button: ["spatial_editor_toolbar_snap_button", "Snap"],
+			spatial_editor_toolbar_trackball_button: ["spatial_editor_toolbar_trackball_button", "Trackball"],
+			spatial_editor_toolbar_preserve_transform_button: ["spatial_editor_toolbar_preserve_transform_button", "Pin"],
 			spatial_editor_toolbar_sun_button: ["spatial_editor_toolbar_sun_button", "PreviewSun"],
 			spatial_editor_toolbar_environment_button: ["spatial_editor_toolbar_environment_button", "PreviewEnvironment"],
 			spatial_editor_toolbar_sun_environment_button: ["spatial_editor_toolbar_sun_environment_button", "GuiTabMenuHl"],
