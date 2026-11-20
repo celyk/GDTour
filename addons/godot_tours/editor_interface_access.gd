@@ -168,7 +168,7 @@ var node_dock_groups_editor: VBoxContainer = null
 var history_dock: MarginContainer = null
 
 # Bottom
-var bottom_panels_container: Control = null
+var bottom_panels_container: TabContainer = null
 
 var spriteframes: HSplitContainer = null
 var spriteframes_animation: VBoxContainer = null
@@ -301,12 +301,12 @@ var tileset_tiles_scene_editor_list_tools_delete_button: Button = null
 var tileset_patterns_panel: ItemList = null
 var tileset_panels: Array[Control] = []
 
-var logger: HBoxContainer = null
+var logger: MarginContainer = null
 var logger_rich_text_label: RichTextLabel = null
 var debugger: MarginContainer = null
 var find_in_files: Control = null
-var audio_buses: VBoxContainer = null
-var animation_player: VBoxContainer = null
+var audio_buses: EditorDock = null
+var animation_player: MarginContainer = null
 var shader: MarginContainer = null
 
 var bottom_buttons_container: HBoxContainer = null
@@ -493,9 +493,6 @@ func _init() -> void:
 	inspector_tabs = Utils.find_child_by_type(inspector_dock.get_parent(), "TabBar")
 	inspector_editor = EditorInterface.get_inspector()
 	node_dock = inspector_dock.get_parent() #Utils.find_child_by_type(base_control, "SideDockTabContainer")
-	print(node_dock)
-	print(node_dock.get_child(0))
-	print(inspector_tabs.get_parent())
 	node_dock_buttons_box = inspector_tabs.get_parent()
 	var node_dock_buttons := node_dock_buttons_box.get_children()
 	#node_dock_signals_button = node_dock_buttons[0]
@@ -518,182 +515,189 @@ func _init() -> void:
 	logger = Utils.find_child_by_type(base_control, "EditorLog")
 	logger_rich_text_label = Utils.find_child_by_type(logger, "RichTextLabel")
 
-	bottom_panels_container = logger.get_parent().get_parent()
-	var bottom_panels_vboxcontainer: VBoxContainer = logger.get_parent()
+	#bottom_panels_container = logger.get_parent().get_parent()
+	bottom_panels_container = logger.get_parent()
+	#bottom_panels_container = Utils.find_child_by_type(base_control, "EditorBottomPanel")
+	#var bottom_panels_vboxcontainer: TabContainer = logger.get_parent()
 
-	debugger = Utils.find_child_by_type(bottom_panels_vboxcontainer, "EditorDebuggerNode", false)
-	find_in_files = Utils.find_child_by_type(bottom_panels_vboxcontainer, "FindInFilesPanel", false)
-	audio_buses = Utils.find_child_by_type(bottom_panels_vboxcontainer, "EditorAudioBuses", false)
-	animation_player = Utils.find_child_by_type(bottom_panels_vboxcontainer, "AnimationPlayerEditor", false)
-	shader = Utils.find_child_by_type(bottom_panels_vboxcontainer, "WindowWrapper", false)
-	var editor_toaster := Utils.find_child_by_type(bottom_panels_vboxcontainer, "EditorToaster")
+	debugger = Utils.find_child_by_type(bottom_panels_container, "EditorDebuggerNode", false)
+	find_in_files = Utils.find_child_by_type(bottom_panels_container, "FindInFilesContainer", false)
+	audio_buses = Utils.find_child_by_type(bottom_panels_container, "EditorAudioBuses", false)
+	animation_player = Utils.find_child_by_type(bottom_panels_container, "AnimationPlayerEditor", false)
+	shader = Utils.find_child_by_type(bottom_panels_container, "WindowWrapper", false)
+	var editor_toaster := Utils.find_child_by_type(bottom_panels_container, "EditorToaster")
+	assert(editor_toaster)
 	var bottom_h_box_container: HBoxContainer = editor_toaster.get_parent()
-	bottom_buttons_container = Utils.find_child_by_type(Utils.find_child_by_type(bottom_h_box_container, "ScrollContainer", false), "HBoxContainer", false)
-
-	bottom_buttons.assign(bottom_buttons_container.get_children())
-	bottom_output_button = bottom_buttons[0]
-	bottom_debugger_button = bottom_buttons[1]
-	bottom_search_results_button = bottom_buttons[2]
-	bottom_audio_button = bottom_buttons[3]
-	bottom_animation_button = bottom_buttons[4]
-	bottom_animation_tree_button = bottom_buttons[5]
-	bottom_resource_preloader_button = bottom_buttons[6]
-	bottom_shader_editor_button = bottom_buttons[7]
-	bottom_shader_file_button = bottom_buttons[8]
-	bottom_sprite_frames_button = bottom_buttons[9]
-	bottom_theme_button = bottom_buttons[10]
-	bottom_polygon_button = bottom_buttons[11]
-	bottom_tileset_button = bottom_buttons[12]
-	bottom_tilemap_button = bottom_buttons[13]
-	bottom_replication_button = bottom_buttons[14]
-	bottom_gridmap_button = bottom_buttons[-1]
+	assert(bottom_h_box_container)
+	#assert(Utils.find_child_by_type(bottom_h_box_container, "ScrollContainer", false))
+	#bottom_buttons_container = Utils.find_child_by_type(Utils.find_child_by_type(bottom_h_box_container, "ScrollContainer", false), "HBoxContainer", false)
+#
+	#bottom_buttons.assign(bottom_buttons_container.get_children())
+	#bottom_output_button = bottom_buttons[0]
+	#bottom_debugger_button = bottom_buttons[1]
+	#bottom_search_results_button = bottom_buttons[2]
+	#bottom_audio_button = bottom_buttons[3]
+	#bottom_animation_button = bottom_buttons[4]
+	#bottom_animation_tree_button = bottom_buttons[5]
+	#bottom_resource_preloader_button = bottom_buttons[6]
+	#bottom_shader_editor_button = bottom_buttons[7]
+	#bottom_shader_file_button = bottom_buttons[8]
+	#bottom_sprite_frames_button = bottom_buttons[9]
+	#bottom_theme_button = bottom_buttons[10]
+	#bottom_polygon_button = bottom_buttons[11]
+	#bottom_tileset_button = bottom_buttons[12]
+	#bottom_tilemap_button = bottom_buttons[13]
+	#bottom_replication_button = bottom_buttons[14]
+	#bottom_gridmap_button = bottom_buttons[-1]
 
 	bottom_pin_button = bottom_h_box_container.get_child(-2)
 	bottom_expand_button = bottom_h_box_container.get_child(-1)
 
-	spriteframes = Utils.find_child_by_type(bottom_panels_vboxcontainer, "SpriteFramesEditor", false)
-	var spriteframes_containers := spriteframes.find_children("", "VBoxContainer", false, false)
+	spriteframes = Utils.find_child_by_type(bottom_panels_container, "SpriteFramesEditor", false)
+	if spriteframes:
+		var spriteframes_containers := spriteframes.find_children("", "VBoxContainer", false, false)
 
-	# Left VBoxContainer
-	spriteframes_animation = spriteframes_containers[0].get_child(1).get_child(0)
-	spriteframes_animation_toolbar = spriteframes_animation.get_child(0)
-	spriteframes_animation_toolbar_controls.assign(spriteframes_animation_toolbar.find_children("", "Button", true, false) + spriteframes_animation_toolbar.find_children("", "SpinBox", true, false))
-	spriteframes_animation_toolbar_add_animation_button = spriteframes_animation_toolbar_controls[0]
-	spriteframes_animation_toolbar_duplicate_animation_button = spriteframes_animation_toolbar_controls[1]
-	spriteframes_animation_toolbar_delete_animation_button = spriteframes_animation_toolbar_controls[2]
-	spriteframes_animation_toolbar_autoplay_button = spriteframes_animation_toolbar_controls[3]
-	spriteframes_animation_toolbar_looping_button = spriteframes_animation_toolbar_controls[4]
-	spriteframes_animation_toolbar_speed = spriteframes_animation_toolbar_controls[5]
-	spriteframes_animation_filter = Utils.find_child_by_type(spriteframes_animation, "LineEdit", true)
-	spriteframes_animations = Utils.find_child_by_type(spriteframes_animation, "Tree", false)
+		# Left VBoxContainer
+		spriteframes_animation = spriteframes_containers[0].get_child(1).get_child(0)
+		spriteframes_animation_toolbar = spriteframes_animation.get_child(0)
+		spriteframes_animation_toolbar_controls.assign(spriteframes_animation_toolbar.find_children("", "Button", true, false) + spriteframes_animation_toolbar.find_children("", "SpinBox", true, false))
+		spriteframes_animation_toolbar_add_animation_button = spriteframes_animation_toolbar_controls[0]
+		spriteframes_animation_toolbar_duplicate_animation_button = spriteframes_animation_toolbar_controls[1]
+		spriteframes_animation_toolbar_delete_animation_button = spriteframes_animation_toolbar_controls[2]
+		spriteframes_animation_toolbar_autoplay_button = spriteframes_animation_toolbar_controls[3]
+		spriteframes_animation_toolbar_looping_button = spriteframes_animation_toolbar_controls[4]
+		spriteframes_animation_toolbar_speed = spriteframes_animation_toolbar_controls[5]
+		spriteframes_animation_filter = Utils.find_child_by_type(spriteframes_animation, "LineEdit", true)
+		spriteframes_animations = Utils.find_child_by_type(spriteframes_animation, "Tree", false)
 
-	# Right VBoxContainer
-	spriteframes_frames = spriteframes_containers[1].get_child(1).get_child(0)
-	spriteframes_frames_toolbar = spriteframes_frames.get_child(0)
-	spriteframes_frames_list = spriteframes_frames.get_child(1)
-	var spriteframes_frames_toolbar_hboxes := spriteframes_frames_toolbar.find_children("", "HBoxContainer", false, false)
-	spriteframes_frames_toolbar_controls.assign(
-		spriteframes_frames_toolbar_hboxes.slice(0, spriteframes_frames_toolbar_hboxes.size() - 1).reduce(func(acc, h: HBoxContainer) -> Array: return acc + h.find_children("", "Button", true, false), []),
-	)
-	spriteframes_frames_toolbar_controls.append_array(spriteframes_frames_toolbar.find_children("", "SpinBox", true, false))
-	spriteframes_frames_toolbar_controls.append_array(spriteframes_frames_toolbar_hboxes[-1].find_children("", "Button", true, false))
-	spriteframes_frames_toolbar_play_back_button = spriteframes_frames_toolbar_controls[0]
-	spriteframes_frames_toolbar_play_back_from_end_button = spriteframes_frames_toolbar_controls[1]
-	spriteframes_frames_toolbar_stop_button = spriteframes_frames_toolbar_controls[2]
-	spriteframes_frames_toolbar_play_from_start_button = spriteframes_frames_toolbar_controls[3]
-	spriteframes_frames_toolbar_play_button = spriteframes_frames_toolbar_controls[4]
-	spriteframes_frames_toolbar_add_from_file_button = spriteframes_frames_toolbar_controls[5]
-	spriteframes_frames_toolbar_add_from_sheet_button = spriteframes_frames_toolbar_controls[6]
-	spriteframes_frames_toolbar_copy_button = spriteframes_frames_toolbar_controls[7]
-	spriteframes_frames_toolbar_paste_button = spriteframes_frames_toolbar_controls[8]
-	spriteframes_frames_toolbar_insert_before_button = spriteframes_frames_toolbar_controls[9]
-	spriteframes_frames_toolbar_insert_after_button = spriteframes_frames_toolbar_controls[10]
-	spriteframes_frames_toolbar_move_left_button = spriteframes_frames_toolbar_controls[11]
-	spriteframes_frames_toolbar_move_right_button = spriteframes_frames_toolbar_controls[12]
-	spriteframes_frames_toolbar_delete_button = spriteframes_frames_toolbar_controls[13]
-	spriteframes_frames_toolbar_frame_duration = spriteframes_frames_toolbar_controls[14]
-	spriteframes_frames_toolbar_zoom_out_button = spriteframes_frames_toolbar_controls[15]
-	spriteframes_frames_toolbar_zoom_reset_button = spriteframes_frames_toolbar_controls[16]
-	spriteframes_frames_toolbar_zoom_in_button = spriteframes_frames_toolbar_controls[17]
+		# Right VBoxContainer
+		spriteframes_frames = spriteframes_containers[1].get_child(1).get_child(0)
+		spriteframes_frames_toolbar = spriteframes_frames.get_child(0)
+		spriteframes_frames_list = spriteframes_frames.get_child(1)
+		var spriteframes_frames_toolbar_hboxes := spriteframes_frames_toolbar.find_children("", "HBoxContainer", false, false)
+		spriteframes_frames_toolbar_controls.assign(
+			spriteframes_frames_toolbar_hboxes.slice(0, spriteframes_frames_toolbar_hboxes.size() - 1).reduce(func(acc, h: HBoxContainer) -> Array: return acc + h.find_children("", "Button", true, false), []),
+		)
+		spriteframes_frames_toolbar_controls.append_array(spriteframes_frames_toolbar.find_children("", "SpinBox", true, false))
+		spriteframes_frames_toolbar_controls.append_array(spriteframes_frames_toolbar_hboxes[-1].find_children("", "Button", true, false))
+		spriteframes_frames_toolbar_play_back_button = spriteframes_frames_toolbar_controls[0]
+		spriteframes_frames_toolbar_play_back_from_end_button = spriteframes_frames_toolbar_controls[1]
+		spriteframes_frames_toolbar_stop_button = spriteframes_frames_toolbar_controls[2]
+		spriteframes_frames_toolbar_play_from_start_button = spriteframes_frames_toolbar_controls[3]
+		spriteframes_frames_toolbar_play_button = spriteframes_frames_toolbar_controls[4]
+		spriteframes_frames_toolbar_add_from_file_button = spriteframes_frames_toolbar_controls[5]
+		spriteframes_frames_toolbar_add_from_sheet_button = spriteframes_frames_toolbar_controls[6]
+		spriteframes_frames_toolbar_copy_button = spriteframes_frames_toolbar_controls[7]
+		spriteframes_frames_toolbar_paste_button = spriteframes_frames_toolbar_controls[8]
+		spriteframes_frames_toolbar_insert_before_button = spriteframes_frames_toolbar_controls[9]
+		spriteframes_frames_toolbar_insert_after_button = spriteframes_frames_toolbar_controls[10]
+		spriteframes_frames_toolbar_move_left_button = spriteframes_frames_toolbar_controls[11]
+		spriteframes_frames_toolbar_move_right_button = spriteframes_frames_toolbar_controls[12]
+		spriteframes_frames_toolbar_delete_button = spriteframes_frames_toolbar_controls[13]
+		spriteframes_frames_toolbar_frame_duration = spriteframes_frames_toolbar_controls[14]
+		spriteframes_frames_toolbar_zoom_out_button = spriteframes_frames_toolbar_controls[15]
+		spriteframes_frames_toolbar_zoom_reset_button = spriteframes_frames_toolbar_controls[16]
+		spriteframes_frames_toolbar_zoom_in_button = spriteframes_frames_toolbar_controls[17]
 
-	tilemap = Utils.find_child_by_type(bottom_panels_vboxcontainer, "TileMapLayerEditor", false)
-	var tilemap_flow_container: HFlowContainer = Utils.find_child_by_type(tilemap, "HFlowContainer", false)
-	tilemap_tabs = tilemap_flow_container.get_child(0)
-	var tilemap_flow_layers_hbox := tilemap_flow_container.get_child(4)
-	tilemap_layers_button = tilemap_flow_layers_hbox.get_child(0)
-	tilemap_previous_button = tilemap_flow_layers_hbox.get_child(1)
-	tilemap_next_button = tilemap_flow_layers_hbox.get_child(2)
-	tilemap_highlight_button = tilemap_flow_container.get_child(5)
-	tilemap_grid_button = tilemap_flow_container.get_child(7)
-	tilemap_menu_button = tilemap_flow_container.get_child(8)
+	tilemap = Utils.find_child_by_type(bottom_panels_container, "TileMapLayerEditor", false)
+	if tilemap:
+		var tilemap_flow_container: HFlowContainer = Utils.find_child_by_type(tilemap, "HFlowContainer", false)
+		tilemap_tabs = tilemap_flow_container.get_child(0)
+		var tilemap_flow_layers_hbox := tilemap_flow_container.get_child(4)
+		tilemap_layers_button = tilemap_flow_layers_hbox.get_child(0)
+		tilemap_previous_button = tilemap_flow_layers_hbox.get_child(1)
+		tilemap_next_button = tilemap_flow_layers_hbox.get_child(2)
+		tilemap_highlight_button = tilemap_flow_container.get_child(5)
+		tilemap_grid_button = tilemap_flow_container.get_child(7)
+		tilemap_menu_button = tilemap_flow_container.get_child(8)
 
-	tilemap_tiles_panel = tilemap.get_child(2)
-	var tilemap_tiles_hsplitcontainer: HSplitContainer = Utils.find_child_by_type(tilemap_tiles_panel, "HSplitContainer", false)
-	tilemap_tiles = Utils.find_child_by_type(tilemap_tiles_hsplitcontainer.get_child(0), "ItemList")
-	tilemap_tiles_tools_sort_button = tilemap_tiles_hsplitcontainer.get_child(0).get_child(1).get_child(0)
-	tilemap_tiles_toolbar = tilemap_flow_container.get_child(1)
-	tilemap_tiles_toolbar_buttons.assign(tilemap_tiles_toolbar.find_children("", "Button", true, false))
-	tilemap_tiles_toolbar_select_button = tilemap_tiles_toolbar_buttons[0]
-	tilemap_tiles_toolbar_paint_button = tilemap_tiles_toolbar_buttons[1]
-	tilemap_tiles_toolbar_line_button = tilemap_tiles_toolbar_buttons[2]
-	tilemap_tiles_toolbar_rect_button = tilemap_tiles_toolbar_buttons[3]
-	tilemap_tiles_toolbar_bucket_button = tilemap_tiles_toolbar_buttons[4]
-	tilemap_tiles_toolbar_picker_button = tilemap_tiles_toolbar_buttons[5]
-	tilemap_tiles_toolbar_eraser_button = tilemap_tiles_toolbar_buttons[6]
-	tilemap_tiles_toolbar_rotate_left_button = tilemap_tiles_toolbar_buttons[7]
-	tilemap_tiles_toolbar_rotate_right_button = tilemap_tiles_toolbar_buttons[8]
-	tilemap_tiles_toolbar_flip_h_button = tilemap_tiles_toolbar_buttons[9]
-	tilemap_tiles_toolbar_flip_v_button = tilemap_tiles_toolbar_buttons[10]
-	tilemap_tiles_toolbar_contiguous_button = tilemap_tiles_toolbar_buttons[11]
-	tilemap_tiles_toolbar_random_button = tilemap_tiles_toolbar_buttons[12]
-	tilemap_tiles_atlas_view = Utils.find_child_by_type(tilemap_tiles_hsplitcontainer, "TileAtlasView", false)
-	tilemap_tiles_atlas_view_zoom_widget = Utils.find_child_by_type(tilemap_tiles_atlas_view, "EditorZoomWidget")
-	tilemap_tiles_atlas_view_zoom_out_button = tilemap_tiles_atlas_view_zoom_widget.get_child(0)
-	tilemap_tiles_atlas_view_zoom_reset_button = tilemap_tiles_atlas_view_zoom_widget.get_child(1)
-	tilemap_tiles_atlas_view_zoom_in_button = tilemap_tiles_atlas_view_zoom_widget.get_child(2)
-	tilemap_tiles_atlas_view_center_button = tilemap_tiles_atlas_view.get_child(2)
+		tilemap_tiles_panel = tilemap.get_child(2)
+		var tilemap_tiles_hsplitcontainer: HSplitContainer = Utils.find_child_by_type(tilemap_tiles_panel, "HSplitContainer", false)
+		tilemap_tiles = Utils.find_child_by_type(tilemap_tiles_hsplitcontainer.get_child(0), "ItemList")
+		tilemap_tiles_tools_sort_button = tilemap_tiles_hsplitcontainer.get_child(0).get_child(1).get_child(0)
+		tilemap_tiles_toolbar = tilemap_flow_container.get_child(1)
+		tilemap_tiles_toolbar_buttons.assign(tilemap_tiles_toolbar.find_children("", "Button", true, false))
+		tilemap_tiles_toolbar_select_button = tilemap_tiles_toolbar_buttons[0]
+		tilemap_tiles_toolbar_paint_button = tilemap_tiles_toolbar_buttons[1]
+		tilemap_tiles_toolbar_line_button = tilemap_tiles_toolbar_buttons[2]
+		tilemap_tiles_toolbar_rect_button = tilemap_tiles_toolbar_buttons[3]
+		tilemap_tiles_toolbar_bucket_button = tilemap_tiles_toolbar_buttons[4]
+		tilemap_tiles_toolbar_picker_button = tilemap_tiles_toolbar_buttons[5]
+		tilemap_tiles_toolbar_eraser_button = tilemap_tiles_toolbar_buttons[6]
+		tilemap_tiles_toolbar_rotate_left_button = tilemap_tiles_toolbar_buttons[7]
+		tilemap_tiles_toolbar_rotate_right_button = tilemap_tiles_toolbar_buttons[8]
+		tilemap_tiles_toolbar_flip_h_button = tilemap_tiles_toolbar_buttons[9]
+		tilemap_tiles_toolbar_flip_v_button = tilemap_tiles_toolbar_buttons[10]
+		tilemap_tiles_toolbar_contiguous_button = tilemap_tiles_toolbar_buttons[11]
+		tilemap_tiles_toolbar_random_button = tilemap_tiles_toolbar_buttons[12]
+		tilemap_tiles_atlas_view = Utils.find_child_by_type(tilemap_tiles_hsplitcontainer, "TileAtlasView", false)
+		tilemap_tiles_atlas_view_zoom_widget = Utils.find_child_by_type(tilemap_tiles_atlas_view, "EditorZoomWidget")
+		tilemap_tiles_atlas_view_zoom_out_button = tilemap_tiles_atlas_view_zoom_widget.get_child(0)
+		tilemap_tiles_atlas_view_zoom_reset_button = tilemap_tiles_atlas_view_zoom_widget.get_child(1)
+		tilemap_tiles_atlas_view_zoom_in_button = tilemap_tiles_atlas_view_zoom_widget.get_child(2)
+		tilemap_tiles_atlas_view_center_button = tilemap_tiles_atlas_view.get_child(2)
 
-	tilemap_patterns_panel = tilemap.get_child(3)
-	tilemap_terrains_panel = tilemap.get_child(4)
-	var tilemap_terrains_hsplitcontainer: HSplitContainer = tilemap_terrains_panel.get_child(0)
-	tilemap_terrains_tree = Utils.find_child_by_type(tilemap_terrains_hsplitcontainer, "Tree")
-	tilemap_terrains_tiles = Utils.find_child_by_type(tilemap_terrains_hsplitcontainer, "ItemList")
-	tilemap_terrains_toolbar = tilemap_flow_container.get_child(2)
-	tilemap_terrains_toolbar_buttons.assign(tilemap_terrains_toolbar.find_children("", "Button", true, false))
-	tilemap_terrains_toolbar_paint_button = tilemap_terrains_toolbar_buttons[0]
-	tilemap_terrains_toolbar_line_button = tilemap_terrains_toolbar_buttons[1]
-	tilemap_terrains_toolbar_rect_button = tilemap_terrains_toolbar_buttons[2]
-	tilemap_terrains_toolbar_bucket_button = tilemap_terrains_toolbar_buttons[3]
-	tilemap_terrains_toolbar_picker_button = tilemap_terrains_toolbar_buttons[4]
-	tilemap_terrains_toolbar_eraser_button = tilemap_terrains_toolbar_buttons[5]
-	tilemap_terrains_toolbar_contiguous_button = tilemap_terrains_toolbar_buttons[6]
+		tilemap_patterns_panel = tilemap.get_child(3)
+		tilemap_terrains_panel = tilemap.get_child(4)
+		var tilemap_terrains_hsplitcontainer: HSplitContainer = tilemap_terrains_panel.get_child(0)
+		tilemap_terrains_tree = Utils.find_child_by_type(tilemap_terrains_hsplitcontainer, "Tree")
+		tilemap_terrains_tiles = Utils.find_child_by_type(tilemap_terrains_hsplitcontainer, "ItemList")
+		tilemap_terrains_toolbar = tilemap_flow_container.get_child(2)
+		tilemap_terrains_toolbar_buttons.assign(tilemap_terrains_toolbar.find_children("", "Button", true, false))
+		tilemap_terrains_toolbar_paint_button = tilemap_terrains_toolbar_buttons[0]
+		tilemap_terrains_toolbar_line_button = tilemap_terrains_toolbar_buttons[1]
+		tilemap_terrains_toolbar_rect_button = tilemap_terrains_toolbar_buttons[2]
+		tilemap_terrains_toolbar_bucket_button = tilemap_terrains_toolbar_buttons[3]
+		tilemap_terrains_toolbar_picker_button = tilemap_terrains_toolbar_buttons[4]
+		tilemap_terrains_toolbar_eraser_button = tilemap_terrains_toolbar_buttons[5]
+		tilemap_terrains_toolbar_contiguous_button = tilemap_terrains_toolbar_buttons[6]
 
-	tilemap_panels = [tilemap_tiles_panel, tilemap_patterns_panel, tilemap_terrains_panel]
+		tilemap_panels = [tilemap_tiles_panel, tilemap_patterns_panel, tilemap_terrains_panel]
 
-	tileset = Utils.find_child_by_type(bottom_panels_vboxcontainer, "TileSetEditor", false)
-	tileset_tabs = Utils.find_child_by_type(tileset, "TabBar")
-	tileset_tiles_panel = tileset.get_child(0).get_child(1)
-	tileset_tiles = Utils.find_child_by_type(tileset_tiles_panel.get_child(0), "ItemList", false)
-	tileset_tiles_tools = Utils.find_child_by_type(tileset_tiles_panel.get_child(0), "HBoxContainer", false)
-	tileset_tiles_tool_buttons.assign(tileset_tiles_tools.get_children())
-	tileset_tiles_tools_delete_button = tileset_tiles_tool_buttons[0]
-	tileset_tiles_tools_add_button = tileset_tiles_tool_buttons[1]
-	tileset_tiles_tools_menu_button = tileset_tiles_tool_buttons[2]
-	tileset_tiles_tools_sort_button = tileset_tiles_tool_buttons[3]
+		tileset = Utils.find_child_by_type(bottom_panels_container, "TileSetEditor", false)
+		tileset_tabs = Utils.find_child_by_type(tileset, "TabBar")
+		tileset_tiles_panel = tileset.get_child(0).get_child(1)
+		tileset_tiles = Utils.find_child_by_type(tileset_tiles_panel.get_child(0), "ItemList", false)
+		tileset_tiles_tools = Utils.find_child_by_type(tileset_tiles_panel.get_child(0), "HBoxContainer", false)
+		tileset_tiles_tool_buttons.assign(tileset_tiles_tools.get_children())
+		tileset_tiles_tools_delete_button = tileset_tiles_tool_buttons[0]
+		tileset_tiles_tools_add_button = tileset_tiles_tool_buttons[1]
+		tileset_tiles_tools_menu_button = tileset_tiles_tool_buttons[2]
+		tileset_tiles_tools_sort_button = tileset_tiles_tool_buttons[3]
 
-	tileset_tiles_atlas_editor = Utils.find_child_by_type(tileset_tiles_panel, "TileSetAtlasSourceEditor")
-	tileset_tiles_atlas_editor_tools = tileset_tiles_atlas_editor.get_child(0).get_child(0)
-	tileset_tiles_atlas_editor_tool_buttons.assign(tileset_tiles_atlas_editor_tools.get_children())
-	tileset_tiles_atlas_editor_tools_setup_button = tileset_tiles_atlas_editor_tool_buttons[0]
-	tileset_tiles_atlas_editor_tools_select_button = tileset_tiles_atlas_editor_tool_buttons[1]
-	tileset_tiles_atlas_editor_tools_paint_button = tileset_tiles_atlas_editor_tool_buttons[2]
-	tileset_tiles_atlas_editor_setup = tileset_tiles_atlas_editor.get_child(0).get_child(4)
-	tileset_tiles_atlas_editor_select = tileset_tiles_atlas_editor.get_child(0).get_child(1)
-	tileset_tiles_atlas_editor_paint = tileset_tiles_atlas_editor.get_child(0).get_child(3)
-	var tileset_tiles_atlas_editor_right: VBoxContainer = tileset_tiles_atlas_editor.get_child(1)
-	tileset_tiles_atlas_editor_toolbar = tileset_tiles_atlas_editor_right.get_child(0)
-	tileset_tiles_atlas_editor_setup_toolbar_erase_button = tileset_tiles_atlas_editor_toolbar.get_child(1)
-	tileset_tiles_atlas_editor_setup_toolbar_menu_button = tileset_tiles_atlas_editor_toolbar.get_child(2)
-	tileset_tiles_atlas_editor_atlas_view = Utils.find_child_by_type(tileset_tiles_atlas_editor_right, "TileAtlasView")
-	tileset_tiles_atlas_editor_atlas_view_zoom_widget = Utils.find_child_by_type(tileset_tiles_atlas_editor_atlas_view, "EditorZoomWidget")
-	tileset_tiles_atlas_editor_atlas_view_zoom_out_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(0)
-	tileset_tiles_atlas_editor_atlas_view_zoom_reset_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(1)
-	tileset_tiles_atlas_editor_atlas_view_zoom_in_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(2)
-	tileset_tiles_atlas_editor_atlas_view_center_button = tileset_tiles_atlas_editor_atlas_view.get_child(2)
+		tileset_tiles_atlas_editor = Utils.find_child_by_type(tileset_tiles_panel, "TileSetAtlasSourceEditor")
+		tileset_tiles_atlas_editor_tools = tileset_tiles_atlas_editor.get_child(0).get_child(0)
+		tileset_tiles_atlas_editor_tool_buttons.assign(tileset_tiles_atlas_editor_tools.get_children())
+		tileset_tiles_atlas_editor_tools_setup_button = tileset_tiles_atlas_editor_tool_buttons[0]
+		tileset_tiles_atlas_editor_tools_select_button = tileset_tiles_atlas_editor_tool_buttons[1]
+		tileset_tiles_atlas_editor_tools_paint_button = tileset_tiles_atlas_editor_tool_buttons[2]
+		tileset_tiles_atlas_editor_setup = tileset_tiles_atlas_editor.get_child(0).get_child(4)
+		tileset_tiles_atlas_editor_select = tileset_tiles_atlas_editor.get_child(0).get_child(1)
+		tileset_tiles_atlas_editor_paint = tileset_tiles_atlas_editor.get_child(0).get_child(3)
+		var tileset_tiles_atlas_editor_right: VBoxContainer = tileset_tiles_atlas_editor.get_child(1)
+		tileset_tiles_atlas_editor_toolbar = tileset_tiles_atlas_editor_right.get_child(0)
+		tileset_tiles_atlas_editor_setup_toolbar_erase_button = tileset_tiles_atlas_editor_toolbar.get_child(1)
+		tileset_tiles_atlas_editor_setup_toolbar_menu_button = tileset_tiles_atlas_editor_toolbar.get_child(2)
+		tileset_tiles_atlas_editor_atlas_view = Utils.find_child_by_type(tileset_tiles_atlas_editor_right, "TileAtlasView")
+		tileset_tiles_atlas_editor_atlas_view_zoom_widget = Utils.find_child_by_type(tileset_tiles_atlas_editor_atlas_view, "EditorZoomWidget")
+		tileset_tiles_atlas_editor_atlas_view_zoom_out_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(0)
+		tileset_tiles_atlas_editor_atlas_view_zoom_reset_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(1)
+		tileset_tiles_atlas_editor_atlas_view_zoom_in_button = tileset_tiles_atlas_editor_atlas_view_zoom_widget.get_child(2)
+		tileset_tiles_atlas_editor_atlas_view_center_button = tileset_tiles_atlas_editor_atlas_view.get_child(2)
 
-	tileset_tiles_scene_editor = Utils.find_child_by_type(tileset_tiles_panel, "TileSetScenesCollectionSourceEditor")
-	tileset_tiles_scene_editor_properties = tileset_tiles_scene_editor.get_child(0).get_child(0)
-	var tileset_tiles_scene_editor_inspectors := tileset_tiles_scene_editor.find_children("", "EditorInspector", true, false)
-	tileset_tiles_scene_editor_scene = tileset_tiles_scene_editor_inspectors[0]
-	tileset_tiles_scene_editor_tile = tileset_tiles_scene_editor_inspectors[1]
-	tileset_tiles_scene_editor_list = tileset_tiles_scene_editor.get_child(0).get_child(1).get_child(0)
-	tileset_tiles_scene_editor_list_tools = tileset_tiles_scene_editor.get_child(0).get_child(1).get_child(1)
-	tileset_tiles_scene_editor_list_tool_buttons.assign(tileset_tiles_scene_editor_list_tools.get_children())
-	tileset_tiles_scene_editor_list_tools_add_button = tileset_tiles_scene_editor_list_tool_buttons[0]
-	tileset_tiles_scene_editor_list_tools_delete_button = tileset_tiles_scene_editor_list_tool_buttons[1]
+		tileset_tiles_scene_editor = Utils.find_child_by_type(tileset_tiles_panel, "TileSetScenesCollectionSourceEditor")
+		tileset_tiles_scene_editor_properties = tileset_tiles_scene_editor.get_child(0).get_child(0)
+		var tileset_tiles_scene_editor_inspectors := tileset_tiles_scene_editor.find_children("", "EditorInspector", true, false)
+		tileset_tiles_scene_editor_scene = tileset_tiles_scene_editor_inspectors[0]
+		tileset_tiles_scene_editor_tile = tileset_tiles_scene_editor_inspectors[1]
+		tileset_tiles_scene_editor_list = tileset_tiles_scene_editor.get_child(0).get_child(1).get_child(0)
+		tileset_tiles_scene_editor_list_tools = tileset_tiles_scene_editor.get_child(0).get_child(1).get_child(1)
+		tileset_tiles_scene_editor_list_tool_buttons.assign(tileset_tiles_scene_editor_list_tools.get_children())
+		tileset_tiles_scene_editor_list_tools_add_button = tileset_tiles_scene_editor_list_tool_buttons[0]
+		tileset_tiles_scene_editor_list_tools_delete_button = tileset_tiles_scene_editor_list_tool_buttons[1]
 
-	tileset_patterns_panel = tileset.get_child(0).get_child(2)
-	tileset_panels = [tileset_tiles_panel, tileset_patterns_panel]
+		tileset_patterns_panel = tileset.get_child(0).get_child(2)
+		tileset_panels = [tileset_tiles_panel, tileset_patterns_panel]
 
 	scene_import_settings_window = Utils.find_child_by_type(base_control, "SceneImportSettingsDialog")
 	scene_import_settings = scene_import_settings_window.get_child(0)
